@@ -1,4 +1,5 @@
 import React from 'react'
+// import { Icon } from 'react-native-vector-icons/MaterialIcons'
 import {View,Text,StyleSheet, TouchableOpacity} from 'react-native'
 
 function Task(props){
@@ -8,7 +9,12 @@ function Task(props){
               <TouchableOpacity style={styles.square}></TouchableOpacity>
               <Text style={styles.itemText}>{props.text}</Text>
                </View>
-               <View style={styles.circular}></View>
+               {/* <Icon
+                 name="delete"
+                 size={25}
+                 color="red"
+               /> */}
+               {/* <View style={styles.circular}></View> */}
         </View>  
     )
 }

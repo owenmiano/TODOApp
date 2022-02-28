@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Keyboard,Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import Task from './components/Task'
+import {Task} from './components/Task'
 function App(){
     const [task,setTask]=useState();
     const[taskItems,setTaskItems]=useState([])
@@ -10,7 +10,7 @@ function App(){
       e.preventDefault();
       Keyboard.dismiss();
       
-      axios.post('http://192.168.100.6:2298/addNewTask', {
+      axios.post('http://192.168.100.4:2298/addNewTask', {
         TaskName:task
     }, {headers: {
             'Content-Type': 'application/json',
@@ -45,25 +45,28 @@ function App(){
      
     // } 
    useEffect(()=>{
-    axios.get(`http://192.168.100.6:2298/getAllTasks`,{
+    axios.get(`http://192.168.100.4:2298/getAllTasks`,{
       method: 'GET',
       headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
       }
-  }).then(response => response.json())
-  .then(data => {
-    setTaskItems([...taskItems,data])
-      console.log(data);
+  })
+  .then(response => {
+      const result=response.data
+      setTaskItems(result)
+      // console.log(result);
+      
+      
   })
  
    },[taskItems])
 
 
 
-  // const  completeTask=(index)=>{
+  // const  completeTask=(id)=>{
   //       let itemsCopy=[...taskItems];
-  //       itemsCopy.splice(index,1)
+  //       itemsCopy.splice(id,1)
   //       setTaskItems(itemsCopy)
   // }
   return(
@@ -71,14 +74,17 @@ function App(){
                {/* TODAYS tasks */}
           <View style={styles.tasksWrapper}>
                 <Text style={styles.sectionTitle}>Today's tasks</Text>
- 
+              
                   {/* this is where all the task will go */}
                 <View style={styles.items}>
+                
+                  
                    {
-                     taskItems.map((item,index)=>{
+                     
+                     taskItems.map((item,id)=>{
                       return (
-                        <TouchableOpacity key={index} onPress={()=>completeTask(index)}>
-                            <Task text={item}  />
+                        <TouchableOpacity key={id}>
+                            <Task text={item.TaskName}  />
                         </TouchableOpacity>
                       )
                      })
