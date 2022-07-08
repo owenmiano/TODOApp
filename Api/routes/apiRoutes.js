@@ -1,25 +1,12 @@
 const express =require("express");
 const router=express.Router();
-const db = require("../models");
-
+const controllers=require('../controllers/tasksControllers')
 // ADD NEW TASK
-router.post("/addNewTask",(req,res) =>{
-    db.Tasks.create({
-        TaskName: req.body.TaskName,
-       
- }).then(submittedDetails=> res.send("Task has been added successfully!!"));
-
-});
-
-// GET ALL TASKS
-router.get("/getAllTasks",(req,res) =>{
-    db.Tasks.findAll({
-   
-       
- }).then(allTasks=> res.send(allTasks));
-
-});
-
+router.post("/addNewTask",controllers.createTask)
+// Fetch all Tasks
+router.get("/getAllTasks",controllers.fetchAllTasks)
+// delete Task
+router.delete("/deleteTask/:id",controllers.deleteTask)
 
 
 
