@@ -1,14 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Keyboard,Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import {Task} from './components/Task'
+import {Task} from './components/TaskList'
 function App(){
-    const [task,setTask]=useState();
     const[taskItems,setTaskItems]=useState([])
 
     const handleSubmit=(e)=>{
       e.preventDefault();
-      Keyboard.dismiss();
       
       axios.post('http://192.168.100.4:2298/addNewTask', {
         TaskName:task
@@ -31,19 +29,7 @@ function App(){
       } )
     }
 
-    //retrieve tasks
-    // const retrieveTasks=()=>{
-    //  axios.get(`http://192.168.100.6:2298/getAllTasks`,{
-    //       method: 'GET',
-    //       headers: {
-    //           Accept: 'application/json',
-    //           'Content-Type': 'application/json'
-    //       }
-    //   })
-    //   console.log(data)
-    //   return response.data
-     
-    // } 
+  
    useEffect(()=>{
     axios.get(`http://192.168.100.4:2298/getAllTasks`,{
       method: 'GET',
@@ -92,24 +78,7 @@ function App(){
                    }
                 </View>
           </View>
-               <KeyboardAvoidingView
-               behavior={Platform.OS ==="ios" ? "padding" : "height"}
-               style={styles.writeTaskWrapper}
-               >
-                <TextInput style={styles.input} placeholder={'Write a task'}
-                onChangeText={text =>setTask(text)}
-                value={task}
-                />
-               
-                <TouchableOpacity onPress={handleSubmit}>
-                  <View style={styles.addWrapper}>
-                     <Text style={styles.addText}>+</Text>
-                  </View>
-                </TouchableOpacity>
-
-
-
-               </KeyboardAvoidingView>
+           
                </View>
   )
 }
@@ -129,37 +98,5 @@ const styles=StyleSheet.create({
     items:{
       marginTop:20
     },
-    writeTaskWrapper:{
-      position:'absolute',
-      bottom:60,
-      width:'100%',
-      flexDirection:'row',
-      justifyContent:'space-around',
-      alignItems:'center'
-    },
-    input:{
-      paddingVertical:15,
-      width:250,
-      paddingHorizontal:15,
-      backgroundColor:"#FFF",
-      borderRadius:60,
-      width:250,
-      borderWidth:1,
-      borderColor:'#C0C0C0'
-    },
-    addWrapper:{
-      width:60,
-      height:60,
-      backgroundColor:"#FFF",
-      borderRadius: 60,
-      justifyContent:'center',
-      alignItems:'center',
-      borderWidth:1,
-      borderColor:'#C0C0C0'
-    }
-
-
-
-
-})
+  })
 export default App
